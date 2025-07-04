@@ -1,52 +1,49 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import './App.css';
+import { Header, Dashboard, CreateCommunity, Customize, Moderation, LandingPage } from './components';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+function App() {
+  const [currentPage, setCurrentPage] = useState('landing');
+  const [user] = useState({
+    name: 'Community Manager',
+    avatar: 'https://images.pexels.com/photos/8728283/pexels-photo-8728283.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+  });
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+  const handleNavigation = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleGetStarted = () => {
+    setCurrentPage('dashboard');
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'landing':
+        return <LandingPage onGetStarted={handleGetStarted} />;
+      case 'dashboard':
+        return <Dashboard />;
+      case 'create':
+        return <CreateCommunity />;
+      case 'customize':
+        return <Customize />;
+      case 'moderate':
+        return <Moderation />;
+      default:
+        return <Dashboard />;
     }
   };
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
-
-function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      {currentPage !== 'landing' && (
+        <Header 
+          user={user} 
+          onNavigate={handleNavigation} 
+          currentPage={currentPage}
+        />
+      )}
+      {renderPage()}
     </div>
   );
 }
