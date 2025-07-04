@@ -112,7 +112,7 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onLoginSuccess
 };
 
 // Register Component
-export const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
+export const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegisterSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -132,6 +132,9 @@ export const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
       setEmail('');
       setPassword('');
       setDisplayName('');
+      if (onRegisterSuccess) {
+        onRegisterSuccess();
+      }
     } else {
       setError(result.error || 'Registration failed');
     }
