@@ -1,7 +1,10 @@
 import React from 'react';
+import { useAuth } from './contexts/AuthContext';
 
 // Header Component
-export const Header = ({ user, onNavigate, currentPage }) => {
+export const Header = ({ onNavigate, currentPage }) => {
+  const { user, logout } = useAuth();
+
   return (
     <header className="bg-gray-900 border-b border-gray-700 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -53,6 +56,16 @@ export const Header = ({ user, onNavigate, currentPage }) => {
           >
             Moderate
           </button>
+          <button
+            onClick={() => onNavigate('chat')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              currentPage === 'chat' 
+                ? 'bg-purple-600 text-white' 
+                : 'text-gray-300 hover:text-white hover:bg-gray-700'
+            }`}
+          >
+            Chat
+          </button>
         </nav>
 
         <div className="flex items-center space-x-4">
@@ -61,12 +74,35 @@ export const Header = ({ user, onNavigate, currentPage }) => {
               <span className="text-white text-sm font-bold">3</span>
             </div>
           </div>
-          <div className="w-10 h-10 bg-gray-600 rounded-full overflow-hidden">
-            <img
-              src="https://images.pexels.com/photos/8728283/pexels-photo-8728283.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
-              alt="User Avatar"
-              className="w-full h-full object-cover"
-            />
+          <div className="relative group">
+            <div className="w-10 h-10 bg-gray-600 rounded-full overflow-hidden cursor-pointer">
+              <img
+                src={user?.photoURL || "https://images.pexels.com/photos/8728283/pexels-photo-8728283.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"}
+                alt="User Avatar"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Dropdown Menu */}
+            <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg border border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="p-3 border-b border-gray-700">
+                <p className="text-white font-medium">{user?.displayName}</p>
+                <p className="text-gray-400 text-sm">{user?.email}</p>
+              </div>
+              <div className="p-2">
+                <button
+                  onClick={() => onNavigate('profile')}
+                  className="w-full text-left px-3 py-2 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors"
+                >
+                  Profile
+                </button>
+                <button
+                  onClick={logout}
+                  className="w-full text-left px-3 py-2 text-red-400 hover:bg-gray-700 rounded-lg transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
