@@ -98,6 +98,7 @@ function AppContent() {
           setShowLoginModal(false);
           setShowRegisterModal(true);
         }}
+        onLoginSuccess={handleLoginSuccess}
       />
       
       <RegisterModal 
@@ -107,6 +108,7 @@ function AppContent() {
           setShowRegisterModal(false);
           setShowLoginModal(true);
         }}
+        onRegisterSuccess={handleRegisterSuccess}
       />
     </div>
   );
