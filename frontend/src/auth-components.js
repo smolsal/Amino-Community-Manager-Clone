@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from './contexts/AuthContext';
 
 // Login Component
-export const LoginModal = ({ isOpen, onClose, onSwitchToRegister }) => {
+export const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,6 +20,9 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToRegister }) => {
       onClose();
       setEmail('');
       setPassword('');
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } else {
       setError(result.error || 'Login failed');
     }
