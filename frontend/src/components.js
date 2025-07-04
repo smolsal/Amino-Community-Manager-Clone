@@ -598,3 +598,157 @@ export const LandingPage = ({ onGetStarted }) => {
     </div>
   );
 };
+
+// Profile Page Component
+export const ProfilePage = () => {
+  const { user, logout } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [displayName, setDisplayName] = useState(user?.displayName || '');
+  const [bio, setBio] = useState('Community manager and content creator. Passionate about building engaging online communities.');
+
+  const handleSaveProfile = () => {
+    // In a real app, this would update the user profile
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white">
+      <div className="p-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold mb-2">Profile</h2>
+            <p className="text-gray-400">Manage your account settings and preferences</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Profile Information */}
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full overflow-hidden">
+                  <img
+                    src={user?.photoURL || 'https://images.pexels.com/photos/8728283/pexels-photo-8728283.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'}
+                    alt={user?.displayName}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold">{user?.displayName}</h3>
+                  <p className="text-gray-400">{user?.email}</p>
+                  <p className="text-green-400 text-sm">Online</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                    Display Name
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  ) : (
+                    <p className="text-white">{displayName}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                    Bio
+                  </label>
+                  {isEditing ? (
+                    <textarea
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      rows="3"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  ) : (
+                    <p className="text-gray-300">{bio}</p>
+                  )}
+                </div>
+
+                <div className="flex space-x-3">
+                  {isEditing ? (
+                    <>
+                      <button
+                        onClick={handleSaveProfile}
+                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                      >
+                        Save Changes
+                      </button>
+                      <button
+                        onClick={() => setIsEditing(false)}
+                        className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                    >
+                      Edit Profile
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Account Stats */}
+            <div className="space-y-6">
+              <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                <h3 className="text-xl font-bold mb-4">Account Statistics</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Member since:</span>
+                    <span className="text-white">
+                      {new Date(user?.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Communities managed:</span>
+                    <span className="text-white">4</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Total members:</span>
+                    <span className="text-white">1,234</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Messages sent:</span>
+                    <span className="text-white">2,456</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                <h3 className="text-xl font-bold mb-4">Account Actions</h3>
+                <div className="space-y-3">
+                  <button className="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors text-left px-4">
+                    Change Password
+                  </button>
+                  <button className="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors text-left px-4">
+                    Privacy Settings
+                  </button>
+                  <button className="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors text-left px-4">
+                    Notification Settings
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors text-left px-4"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
