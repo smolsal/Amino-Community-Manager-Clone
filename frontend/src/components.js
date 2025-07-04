@@ -175,6 +175,25 @@ export const Dashboard = () => {
             ))}
           </div>
         </div>
+
+        {/* Quick Actions */}
+        <div className="mt-8 bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <h3 className="text-xl font-bold mb-4">Quick Actions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <button className="bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors">
+              Create Community
+            </button>
+            <button className="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
+              View Analytics
+            </button>
+            <button className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors">
+              Moderate Content
+            </button>
+            <button className="bg-orange-600 text-white py-3 px-6 rounded-lg hover:bg-orange-700 transition-colors">
+              Community Chat
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
